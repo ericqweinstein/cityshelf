@@ -1,0 +1,67 @@
+// Typography for CityShelf.
+// Author: Eric Weinstein <eric.q.weinstein@gmail.com>
+
+@import 'fonts';
+
+%heading {
+  font-family: 'CooperHewitt-Light', helvetica, arial;
+  font-size: 2em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+}
+
+%subheading {
+  font-family: 'CooperHewitt-Book', helvetica, arial;
+  font-size: 1.5em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  text-align: center;
+}
+
+%reading-line {
+  font-family: 'CooperHewitt-Book', helvetica, arial;
+  font-size: 1.125em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  line-height: .75em;
+  text-align: center;
+}
+
+%copy {
+  font-family: 'CooperHewitt-Light', helvetica, arial;
+  font-size: 1.125em;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+%announcement {
+  background-color: $cs-primary-background-color;
+  color: $cs-primary-font-color;
+  display: block;
+  font-family: 'CooperHewitt-Book', helvetica, arial;
+  margin: 0 auto 2%;
+  padding: 1%;
+  text-align: center;
+  text-decoration: underline;
+  width: 90%;
+}
+
+%icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  float: left;
+  height: 30px;
+  margin-right: 30px;
+  width: 30px;
+}

@@ -1,0 +1,991 @@
+// Styling for CityShelf.
+// Author: Eric Weinstein <eric.q.weinstein@gmail.com>
+
+// TODO: Consider Bourbon for mixins. (EQW 28 May 2015)
+
+// These colors named with Name That Color
+// (http://chir.ag/projects/name-that-color)
+// Note that these colors _should not_ be used
+// directly; instead, the semantic names (see
+// below) should be used and should reference
+// these colors as needed. (EQW 18 Jul 2015)
+$alto: rgb(206, 206, 206);       // #cecece
+$black: rgb(0, 0, 0);            // #000000
+$blue: rgb(0, 0, 255);           // #0000ff
+$shark: rgb(29, 30, 30);         // #1d1e1e
+$spring-green: rgb(0, 250, 159); // #00fa9f
+$white: rgb(255, 255, 255);      // #ffffff
+$wild-sand: rgb(244, 244, 244);  // #f4f4f4
+
+// Semantic colors
+$cs-primary-color: $spring-green;
+$cs-secondary-color: $shark;
+$cs-highlight-color: $blue;
+$cs-primary-background-color: $white;
+$cs-secondary-background-color: $alto;
+$cs-tertiary-background-color: $wild-sand;
+$cs-primary-font-color: $black;
+
+@import 'typography';
+
+// TODO Move mixins to their own file. (EQW 18 Jul 2015)
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+@mixin column($side) {
+  @if $side == left {
+    float: left;
+    margin-left: 10%;
+    width: 40%;
+  } @else {
+    float: right;
+    margin-right: 10%;
+    width: 40%;
+  }
+}
+
+// TODO Rethink these breakpoints; we inherited them from
+// a very early version of the site and I think we really
+// want something like: `$mobile-and-up`, `$tablet-and-up`,
+// and so on. (EQW 18 Jul 2015)
+@mixin breakpoint($point) {
+  @if $point == desktop {
+    @media (min-width: 70em) { @content; }
+  } @else if $point == laptop {
+    @media (min-width: 64em) { @content; }
+  } @else if $point == tablet {
+    @media (min-width: 50em) { @content; }
+  } @else if $point == phablet {
+    @media (min-width: 37.5em) { @content; }
+  } @else if $point == mobileonly {
+    @media (max-width: 37.5em) { @content; }
+  }
+}
+
+html {
+  border: $cs-primary-color 1em solid;
+  min-height: 100%;
+
+  @include breakpoint(mobileonly) {
+    border: $cs-primary-color .25em solid;
+  }
+
+  @include breakpoint(phablet) {
+    border: $cs-primary-color .5em solid;
+  }
+
+  @include breakpoint(tablet) {
+    border: $cs-primary-color .5em solid;
+  }
+
+  @include breakpoint(laptop) {
+    border: $cs-primary-color .5em solid;
+  }
+
+  @include breakpoint(desktop) {
+    border: $cs-primary-color .5em solid;
+  }
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0;
+  position: relative;
+}
+
+// TODO: Put the above into app.scss and divide
+// the below among the three pages. (EQW 23 Jul 2015)
+
+// Home page
+
+// TODO: Remove ID, variable for z-index, &c. (EQW 26 Aug 2015)
+#mobile-banner {
+  background: $cs-primary-background-color;
+  left: 2.5%;
+  position: fixed;
+  top: .3em;
+  width: calc(100% - .9em);
+  z-index: 11;
+}
+
+.logo {
+  background-color: $cs-primary-background-color;
+  left: 2%;
+  position: absolute;
+  top: 4%;
+
+  img {
+    width: 120px;
+
+    @include breakpoint(mobileonly) {
+      width: 40px;
+    }
+  }
+}
+
+.hero {
+  background-image: url('../img/hero.png');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-bottom: -5px;
+  margin-top: 225px;
+
+  @include breakpoint(mobileonly) {
+    height: 200px;
+  }
+
+  @include breakpoint(phablet) {
+    height: 250px;
+  }
+
+  @include breakpoint(tablet) {
+    height: 300px;
+  }
+
+  @include breakpoint(laptop) {
+    height: 450px;
+  }
+
+  @include breakpoint(desktop) {
+    height: 450px;
+  }
+}
+
+// TODO: Rename this, it's confusing. Also, we should
+// get rid of IDs in general. (EQW 23 Jul 2015)
+#menu {
+  @extend %copy;
+
+  background-color: $cs-primary-background-color;
+  border-left: solid calc(.5em - 1px) $cs-primary-color;
+  border-right: solid calc(.5em - 1px) $cs-primary-color;
+  border-top: solid .5em $cs-primary-color;
+  display: block;
+  float: right;
+  height: 139px; // Logo height
+  padding-top: 1em;
+  position: fixed;
+  right: 0;
+  text-align: right;
+  top: 0;
+  width: calc(100% - .9em);
+  z-index: 10;
+
+  @include breakpoint(mobileonly) {
+    border-left: solid .25em $cs-primary-color;
+    border-right: solid .25em $cs-primary-color;
+    border-top: solid .25em $cs-primary-color;
+    height: 100px;
+    width: calc(100% - .45em);
+
+    a {
+      font-size: .65em;
+
+      &:last-of-type {
+        display: none;
+      }
+    }
+  }
+
+  a {
+    color: $cs-primary-font-color;
+    font-weight: bold;
+    margin-right: 4%;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom: 2px solid $cs-primary-color;
+    }
+  }
+}
+
+.search {
+  background-color: $cs-secondary-color;
+  margin: 0 0 2em;
+  padding-bottom: 4em;
+  padding-top: 2em;
+  width: 100%;
+
+  .container {
+    display: -webkit-box; // Safari compatibility
+    display: -moz-box;    // Firefox 19- compatibility
+    display: -ms-flexbox; // IE compatibility
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between; // Safari 6.1+
+    justify-content: space-between;
+    margin: 0 auto;
+    position: relative;
+    width: 90%;
+  }
+}
+
+.cta {
+  @extend %heading;
+
+  margin-top: 100px;
+  position: absolute;
+  text-align: center;
+  top: -150px;
+  width: 100%;
+
+  @include breakpoint(mobileonly) {
+    font-size: 1em;
+  }
+
+  &:after {
+    background: $cs-primary-color;
+    bottom: -20px;
+    content:'';
+    height: 3px;
+    left: calc(50% - 35px); // width / 2
+    position: absolute;
+    width: 70px;
+  }
+}
+
+.subheading {
+  // TODO: Change class name depending on
+  // implementation. (EQW 23 Jul 2015)
+  @extend %subheading;
+
+  @include breakpoint(mobileonly) {
+    font-size: 1.125em;
+  }
+}
+
+.section {
+  margin-bottom: 4em;
+  text-align: center;
+
+  h2 {
+    @extend %announcement;
+  }
+}
+
+.bookstores {
+  div {
+    @include breakpoint(mobileonly) {
+      width: 48%;
+    }
+
+    display: inline-block;
+    margin: 1%;
+    padding: 0;
+    position: relative;
+    width: 31.33%;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  // TODO: Clarify typography. (EQW 25 Jul 2015)
+  .city-name {
+    @extend %subheading;
+
+    background-color: $cs-primary-font-color;
+    color: $cs-primary-background-color;
+    height: 1em;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 2em;
+  }
+}
+
+// TODO: Rename. (EQW 24 Jul 2015)
+.about-section {
+  @include breakpoint(tablet) {
+    width: 30%;
+  }
+
+  @include breakpoint(laptop) {
+    width: 18%;
+  }
+
+  @include breakpoint(desktop) {
+    width: 18%;
+  }
+
+  display: inline-block;
+  width: 45%;
+
+  figure {
+    display: inline-block;
+    margin: 0 auto;
+    position: relative;
+    width: 70%;
+
+    img {
+      width: 100%;
+    }
+
+    figcaption {
+      @include breakpoint(mobileonly) {
+        font-size: .8em;
+      }
+
+      @extend %copy;
+
+      a {
+        color: $cs-primary-font-color;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .bio {
+    margin: 0 auto;
+
+    .title {
+      @extend %reading-line;
+    }
+  }
+}
+
+.news {
+  @include column(left);
+  @include breakpoint(mobileonly) {
+    margin-bottom: 0;
+    width: 90%;
+  }
+
+  margin-bottom: 4em;
+  margin-top: 4em;
+
+  p {
+    display: block;
+    font-family: 'CooperHewitt-Book';
+    text-align: left;
+  }
+
+  a {
+    @extend %reading-line;
+
+    color: $black;
+    display: block;
+    margin-bottom: 1em;
+    text-align: left;
+  }
+}
+
+.news-item {
+  time {
+    @extend %copy;
+
+    display: inline-block;
+    float: left;
+    font-size: 16px;
+    vertical-align: top;
+    text-align: left;
+    width: 25%;
+  }
+
+  p {
+    display: inline-block;
+    font-family: 'CooperHewitt-Bold';
+    margin: 0 auto;
+    width: 60%;
+  }
+
+  a {
+    @extend %reading-line;
+
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 30px;
+    text-align: left;
+    width: 35%;
+  }
+}
+
+.updates {
+  @include column(right);
+  @include breakpoint(mobileonly) {
+    margin: 0 auto 4em;
+    width: 95%;
+
+    .social-media {
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      width: 120%;
+    }
+  }
+
+  margin-bottom: 4em;
+  margin-top: 4em;
+
+  a {
+    @extend %reading-line;
+
+    display: block;
+    margin-bottom: 1em;
+    text-align: left;
+  }
+}
+
+.subscription {
+  input {
+    @include transition(all, .3s, linear);
+    @include breakpoint(mobileonly) {
+      margin-left: -15px;
+      width: 52%;
+    }
+
+    -moz-box-sizing: border-box;
+    -webkit-appearance: none;
+    -webkit-box-sizing: border-box;
+    background: $cs-primary-background-color;
+    border-bottom: 3px solid $cs-primary-color !important;
+    border-radius: 0;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    color: $cs-secondary-color;
+    font-family: 'CooperHewitt-BookItalic', Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    height: calc(3em - 1px);
+    line-height: 1.25em;
+    margin-bottom: 30px;
+    padding-left: 1em;
+    width: 79%;
+
+    &:focus {
+      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.08);
+      outline: none;
+    }
+  }
+}
+
+.submit-button {
+  @include transition(all, .3s, linear);
+  @include breakpoint(mobileonly) {
+    font-size: .8em;
+    height: 4em;
+    width: 33%;
+  }
+
+  background-color: $cs-primary-background-color;
+  border: 3px solid $cs-primary-color;
+  color: $cs-secondary-color;
+  cursor: pointer;
+  font-family: 'CooperHewitt-Bold', Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  height: 3em;
+  text-align: center;
+  width: 20%;
+
+  &:hover {
+    background-color: $cs-primary-color;
+  }
+}
+
+#facebook {
+  @extend %icon;
+
+  background-image: url('../img/CS_facebook.png');
+}
+
+#instagram {
+  @extend %icon;
+
+  background-image: url('../img/CS_instagram.png');
+}
+
+#twitter {
+  @extend %icon;
+
+  background-image: url('../img/CS_twitter.png');
+}
+
+.footer {
+  @extend %copy;
+
+  background-color: $cs-primary-color;
+  clear: both;
+  height: 9em;
+  line-height: 9em;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+
+  a {
+    color: $cs-primary-font-color;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Search page
+.search-result {
+  border-bottom: 35px solid $cs-tertiary-background-color;
+  border-left: 50px solid $cs-tertiary-background-color;
+  border-right: 50px solid $cs-tertiary-background-color;
+  border-top: 35px solid $cs-tertiary-background-color;
+  display: inline-block;
+  margin: 2%;
+  max-height: 300px;
+  min-width: 95px;
+  vertical-align: bottom;
+  width: 10%;
+
+  @include breakpoint(mobileonly) {
+    min-width: 80px;
+    width: 5%;
+  }
+
+  @include breakpoint(phablet) {
+    width: 8%;
+  }
+
+  @include breakpoint(tablet) {
+    width: 10%;
+  }
+
+  img {
+    height: 140px;
+    width: 95px;
+
+    @include breakpoint(mobileonly) {
+      height: 120px;
+      width: 80px;
+    }
+  }
+
+  &:hover {
+    background-color: $cs-primary-color;
+    border-bottom: 35px solid $cs-primary-color;
+    border-left: 50px solid $cs-primary-color;
+    border-right: 50px solid $cs-primary-color;
+    border-top: 35px solid $cs-primary-color;
+  }
+}
+
+// Book detail page
+.book-container {
+  margin-bottom: 2.5em;
+}
+
+.book-description {
+  display: inline-block;
+  margin-left: 2%;
+  margin-top: -10px;
+  max-width: 66%;
+  position: absolute;
+
+  @include breakpoint(mobileonly) {
+    display: block;
+    margin: 0 auto;
+    max-width: 90%;
+    position: relative;
+  }
+}
+
+.full-bleed {
+  width: 100%;
+
+  img {
+    border-radius: 10%;
+    margin: 1% 0 0 1%;
+    width: 80px;
+  }
+
+  a {
+    color: $cs-primary-font-color;
+    display: block;
+    font-size: .75em;
+    margin-left: 75px;
+    margin-top: -45px;
+    padding-bottom: 45px;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  span {
+    float: right;
+    font-size: 2em;
+    margin-right: 2%;
+    margin-top: calc(1% - 115px);
+  }
+}
+
+#book-copy {
+  // TODO Set up mixin. (EQW 19 Jul 2015)
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  height: 120px; // font-size * line-height * lines to show
+  -webkit-line-clamp: 5;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-image {
+  // TODO Clean up this duplication. (EQW 24 Aug 2015)
+  border-bottom: 35px solid $cs-tertiary-background-color;
+  border-left: 50px solid $cs-tertiary-background-color;
+  border-right: 50px solid $cs-tertiary-background-color;
+  border-top: 35px solid $cs-tertiary-background-color;
+  margin: 0 0 0 2em;
+  width: 10%;
+
+  @include breakpoint(mobileonly) {
+    display: block;
+    margin: 0 auto;
+    width: 30%;
+  }
+}
+
+.book-title {
+  font-family: 'CooperHewitt-Bold', helvetica, arial;
+  font-size: .8em;
+  height: 2em;
+}
+
+.book-author {
+  font-family: 'CooperHewitt-Book', helvetica, arial;
+  font-size: .8em;
+  height: 2.5em;
+}
+
+.copy {
+  // TODO: Break up implementation, as above. (EQW 23 Jul 2015)
+  @extend %copy;
+}
+
+.underbar {
+  border-bottom: 2px solid $cs-primary-font-color;
+  display: block;
+  margin: 5% auto;
+  width: 70%;
+}
+
+// TODO: Make this a mixin. (EQW 29 May 2015)
+.align-center {
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+}
+
+// Form
+.form-field {
+  @include transition(all, .3s, linear);
+
+  // TODO: Border box mixin. (EQW 23 Jul 2015)
+  -webkit-appearance: none;
+  background: $cs-secondary-color;
+  border: 2px solid $cs-primary-color;
+  border-radius: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: $cs-primary-background-color;
+  display: inline-block;
+  font-family: 'CooperHewitt-BookItalic', Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  height: 50px;
+  line-height: 75px;
+  margin: 2em 0;
+  order: 1;
+  padding: 0;
+  text-indent: 10px;
+  width: 42%;
+
+  @include breakpoint(mobileonly) {
+    display: block;
+    font-size: .875em;
+    height: 50px;
+    line-height: 1.35em;
+    margin: 0 auto;
+    position: relative;
+    vertical-align: center;
+    width: 75%;
+  }
+
+  @include breakpoint(phablet) {
+    height: 50px;
+    line-height: 1.25em;
+    margin: 2em 0;
+  }
+
+  @include breakpoint(tablet) {
+    height: 50px;
+    line-height: 1.25em;
+    margin: 2em 0;
+  }
+
+  @include breakpoint(laptop) {
+    margin: 2em 0;
+  }
+
+  @include breakpoint(desktop) {
+    margin: 2em 0;
+  }
+}
+
+form input:focus {
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, .08);
+  outline: none;
+}
+
+// TODO Mixin (Bourbon?). (EQW 19 Jul 2015)
+::-webkit-input-placeholder {
+  color: $cs-primary-background-color;
+  text-indent: 10px;
+}
+
+:-moz-placeholder { // Firefox 18-
+  color: $cs-primary-background-color;
+  text-indent: 10px;
+}
+
+::-moz-placeholder { // Firefox 19+
+  color: $cs-primary-background-color;
+  text-indent: 10px;
+}
+
+:-ms-input-placeholder {
+  color: $cs-primary-background-color;
+  text-indent: 10px;
+}
+
+#embedded-form {
+  ::-webkit-input-placeholder {
+    color: $cs-secondary-color;
+    text-indent: 0;
+ }
+
+  :-moz-placeholder { // Firefox 18-
+    color: $cs-secondary-color;
+    text-indent: 0;
+  }
+
+  ::-moz-placeholder { // Firefox 19+
+    color: $cs-secondary-color;
+    text-indent: 0;
+  }
+
+  :-ms-input-placeholder {
+    color: $cs-secondary-color;
+    text-indent: 0;
+  }
+
+  @include breakpoint(mobileonly) {
+    font-size: 0.75em;
+  }
+}
+
+#email {
+  padding-left: 0;
+
+  @include breakpoint(phablet) {
+    width: 70%;
+  }
+
+  @include breakpoint(tablet) {
+    width: 70%;
+  }
+
+  @include breakpoint(laptop) {
+    width: 70%;
+  }
+}
+
+#subscribe {
+  @include breakpoint(phablet) {
+    width: 29%;
+  }
+
+  @include breakpoint(tablet) {
+    width: 29%;
+  }
+
+  @include breakpoint(laptop) {
+    width: 29%;
+  }
+}
+
+#dropdown {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: $cs-secondary-color;
+  background-image: url('../img/down-arrow.svg');
+  background-position: center right;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  -moz-padding-end: 20px;
+  -webkit-padding-end: 20px;
+  -moz-padding-start: 2px;
+  -webkit-padding-start: 2px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  text-indent: 10px;
+
+  @include breakpoint(mobileonly) {
+    background-size: 25px;
+    order: 2;
+  }
+
+  @include breakpoint(phablet) {
+    background-size: 30px;
+  }
+
+  @include breakpoint(tablet) {
+    background-size: 30px;
+  }
+
+  @include breakpoint(laptop) {
+    background-size: 40px;
+  }
+
+  @include breakpoint(desktop) {
+    background-size: 40px;
+  }
+}
+
+#availability {
+  float: left;
+  width: 50%;
+
+  @include breakpoint(mobileonly) {
+    width: 100%;
+  }
+
+  a {
+    color: $cs-primary-font-color;
+    text-decoration: none;
+  }
+
+  span {
+    @extend %announcement;
+
+    margin-left: 1em;
+    text-align: left;
+  }
+
+  li {
+    counter-increment: list;
+    list-style-type: none;
+    margin-left: 2em;
+    position: relative;
+    width: 100%;
+
+    &:hover {
+      &:after {
+        background-color: $cs-primary-color;
+        border: 1px solid $cs-secondary-color;
+        color: $cs-secondary-color;
+      }
+    }
+  }
+
+  li:after {
+    @extend %copy;
+
+    background-color: $cs-secondary-color;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    color: $cs-primary-color;
+    content: counter(list, upper-alpha) "";
+    height: 2em;
+    left: -3em;
+    line-height: 2.25em;
+    margin-top: -1.25em;
+    position: absolute;
+    text-align: center;
+    width: 2em;
+  }
+
+  .book-title {
+    margin-bottom: 0;
+  }
+}
+
+#map-canvas {
+  float: right;
+  height: 500px;
+  margin-right: 2em;
+  width: 45%;
+
+  @include breakpoint(mobileonly) {
+    margin-right: 1em;
+    width: 90%;
+  }
+}
+
+#recommendation {
+  clear: both;
+
+  h3 {
+    @extend %announcement;
+  }
+}
+
+// Buttons (really should be above with home or search)
+.cs-search-btn {
+  @include transition(all, .3s, linear);
+
+  background-color: $cs-secondary-color;
+  border: 3px solid $cs-primary-color;
+  color: $cs-primary-color;
+  cursor: pointer;
+  font-size: 1rem;
+  height: 75px;
+  margin-top: 2em;
+  order: 2;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 12%;
+
+  @include breakpoint(mobileonly) {
+    border: 2px solid $cs-primary-color;
+    display: block;
+    font-size: .875rem;
+    height: 50px;
+    margin: 0 auto;
+    order: 3;
+    width: 75%;
+  }
+
+  @include breakpoint(phablet) {
+    height: 50px;
+    width: 50px;
+  }
+
+  @include breakpoint(tablet) {
+    height: 50px;
+    width: 50px;
+  }
+
+  @include breakpoint(laptop) {
+    height: 50px;
+    width: 50px;
+  }
+
+  @include breakpoint(desktop) {
+    height: 50px;
+    width: 50px;
+  }
+}
